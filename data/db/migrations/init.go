@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/hosseinmirzapur/parsian-backend/data/db"
+	"github.com/hosseinmirzapur/parsian-backend/data/models"
 	"gorm.io/gorm"
 )
 
@@ -20,6 +21,13 @@ func createTables(database *gorm.DB) {
 	tables := []interface{}{}
 
 	// TODO: add models to the tables array
+	tables = addNewTable(database, &models.Admin{}, tables)
+	tables = addNewTable(database, &models.Role{}, tables)
+	tables = addNewTable(database, &models.AdminRole{}, tables)
+	tables = addNewTable(database, &models.Permission{}, tables)
+	tables = addNewTable(database, &models.RolePermission{}, tables)
+	tables = addNewTable(database, &models.Order{}, tables)
+	tables = addNewTable(database, &models.OrderItem{}, tables)
 
 	// Migrate
 	err := database.Migrator().CreateTable(tables...)
@@ -28,16 +36,12 @@ func createTables(database *gorm.DB) {
 		log.Fatal(err)
 	}
 
-	log.Println("tables created")
+	log.Println("tables created successfully...")
 }
 
-/**
-Uncomment this...
-*/
-
-// func addNewTable(database *gorm.DB, model interface{}, tables []interface{}) []interface{} {
-// 	if !database.Migrator().HasTable(model) {
-// 		tables = append(tables, model)
-// 	}
-// 	return tables
-// }
+func addNewTable(database *gorm.DB, model interface{}, tables []interface{}) []interface{} {
+	if !database.Migrator().HasTable(model) {
+		tables = append(tables, model)
+	}
+	return tables
+}
