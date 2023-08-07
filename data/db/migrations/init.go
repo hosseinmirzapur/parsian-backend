@@ -22,10 +22,6 @@ func createTables(database *gorm.DB) {
 
 	// TODO: add models to the tables array
 	tables = addNewTable(database, &models.Admin{}, tables)
-	tables = addNewTable(database, &models.Role{}, tables)
-	tables = addNewTable(database, &models.AdminRole{}, tables)
-	tables = addNewTable(database, &models.Permission{}, tables)
-	tables = addNewTable(database, &models.RolePermission{}, tables)
 	tables = addNewTable(database, &models.Order{}, tables)
 	tables = addNewTable(database, &models.OrderItem{}, tables)
 
