@@ -21,5 +21,4 @@ go.work
 __debug_bin
 */cmd/uploads
 
-# Never push .env to github, LOL
 .env
