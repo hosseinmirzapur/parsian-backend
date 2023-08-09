@@ -26,6 +26,13 @@ func RegisterRoutes(app *fiber.App) {
 	// Api Related Stuff
 	api := app.Group("/api")
 
+	// Test Route
+	api.Get("/test", func(c *fiber.Ctx) error {
+		return c.Status(fiber.StatusOK).JSON(&fiber.Map{
+			"healthy": true,
+		})
+	})
+
 	v1 := api.Group("/v1")
 	{
 
