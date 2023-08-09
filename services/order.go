@@ -2,6 +2,7 @@ package services
 
 import (
 	"github.com/hosseinmirzapur/parsian-backend/api/dto"
+	"github.com/hosseinmirzapur/parsian-backend/api/helper"
 	"github.com/hosseinmirzapur/parsian-backend/common"
 	"github.com/hosseinmirzapur/parsian-backend/data/db"
 	"github.com/hosseinmirzapur/parsian-backend/data/models"
@@ -28,6 +29,9 @@ func GetOrderById(id int) (models.Order, error) {
 func CreateOrder(data *dto.CreateOrderRequest) (models.Order, error) {
 	dbClient := db.GetDB()
 	order := models.Order{}
+	order.SpecialId = helper.GenerateOrderCode()
+	order.CustomerName = data.CustomerName
+	order.PhoneNumber = data.PhoneNumber
 	err := dbClient.Create(&order).Error
 	return order, err
 }
@@ -63,5 +67,4 @@ func ChangeOrderStatus(id int, status common.OrderStatus) (models.Order, error) 
 		}
 	}
 	return order, nil
-
 }

@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/hosseinmirzapur/parsian-backend/api/dto"
+	"github.com/hosseinmirzapur/parsian-backend/api/helper"
 	"github.com/hosseinmirzapur/parsian-backend/services"
 )
 
@@ -39,7 +40,7 @@ func (h *orderItemHandler) Create(c *fiber.Ctx) error {
 			"message": "invalid file upload",
 		})
 	}
-	filepath, err := services.UploadFileFromCtx(c)
+	filepath, err := helper.UploadCtxFile(c)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,

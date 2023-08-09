@@ -1,4 +1,4 @@
-package services
+package helper
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func UploadFileFromCtx(c *fiber.Ctx) (string, error) {
+func UploadCtxFile(c *fiber.Ctx) (string, error) {
 	file, err := c.FormFile("image")
 	if err != nil {
 		return "", err
