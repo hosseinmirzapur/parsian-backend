@@ -6,14 +6,14 @@ import (
 	"github.com/hosseinmirzapur/parsian-backend/services"
 )
 
-type AuthHandler struct {
+type authHandler struct {
 }
 
-func NewAuthHandler() *AuthHandler {
-	return &AuthHandler{}
+func NewAuthHandler() *authHandler {
+	return &authHandler{}
 }
 
-func (h *AuthHandler) Login(c *fiber.Ctx) error {
+func (h *authHandler) Login(c *fiber.Ctx) error {
 
 	// Validation Section
 	var err error

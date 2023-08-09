@@ -11,4 +11,5 @@ func SetupAdmin(router fiber.Router) {
 	router.Get("/all", h.GetAllAdmins)
 	router.Post("/create", h.CreateAdmin)
 	router.Put("/update/:id", h.UpdateAdmin)
+	router.Delete("/delete/:id", h.DeleteAdmin)
 }

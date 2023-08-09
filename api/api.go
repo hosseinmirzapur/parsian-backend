@@ -20,6 +20,10 @@ func InitServer() {
 }
 
 func RegisterRoutes(app *fiber.App) {
+	// Serve Static Files
+	app.Static("/", "./public")
+
+	// Api Related Stuff
 	api := app.Group("/api")
 
 	v1 := api.Group("/v1")
@@ -33,13 +37,13 @@ func RegisterRoutes(app *fiber.App) {
 		adminRouter := v1.Group("/admin", middlewares.ProtectedRoute())
 		routers.SetupAdmin(adminRouter)
 
-		// Role
-		roleRouter := v1.Group("/role", middlewares.ProtectedRoute())
-		routers.SetupRole(roleRouter)
-
 		// Order
 		orderRouter := v1.Group("/order", middlewares.ProtectedRoute())
 		routers.SetupOrder(orderRouter)
+
+		// Order-Item
+		oiRouter := v1.Group("/oi", middlewares.ProtectedRoute())
+		routers.SetupOI(oiRouter)
 
 	}
 

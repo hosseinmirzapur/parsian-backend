@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/hosseinmirzapur/parsian-backend/api/dto"
@@ -63,7 +64,61 @@ func (h *adminHandler) CreateAdmin(c *fiber.Ctx) error {
 
 func (h *adminHandler) UpdateAdmin(c *fiber.Ctx) error {
 
-	// Todo: Implement this
+	req := new(dto.UpdateAdminRequest)
+	err := c.BodyParser(&req)
+	if err != nil {
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(&fiber.Map{
+			"success": false,
+			"message": "Invalid request body",
+		})
+	}
 
-	return nil
+	id := c.Params("id")
+
+	adminId, err := strconv.Atoi(id)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"success": false,
+			"message": "Invalid url param",
+		})
+	}
+
+	admin, err := services.UpdateAdmin(req, uint(adminId))
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"success": false,
+			"message": "Unable to update admin",
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
+		"success": true,
+		"admin":   admin,
+	})
+}
+
+func (h *adminHandler) DeleteAdmin(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	adminId, err := strconv.Atoi(id)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"success": false,
+			"message": "Bad request param",
+		})
+	}
+
+	err = services.DeleteAdmin(uint(adminId))
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"success": false,
+			"message": "unable to delete admin",
+		})
+	}
+	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
+		"success": true,
+		"message": "Operation Successful",
+	})
 }
