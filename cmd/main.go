@@ -12,7 +12,7 @@ import (
 
 func main() {
 	var err error
-	cfg := config.NewConfig("prod")
+	cfg := config.NewConfig("production")
 
 	if cfg.IsDevelopment() {
 		err = godotenv.Load("./.env")
