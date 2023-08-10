@@ -5,14 +5,14 @@ import "github.com/hosseinmirzapur/parsian-backend/common"
 type Order struct {
 	BaseModel
 	OrderItems   *[]OrderItem
-	PhoneNumber  string `gorm:"type:string;size:11;not null"`
-	CustomerName string `gorm:"type:string;size:255;not null"`
-	SpecialId    string `gorm:"type:string;size:8;not null"`
+	PhoneNumber  string `gorm:"type:string;size:11;not_null"`
+	CustomerName string `gorm:"type:string;not_null"`
+	SpecialId    string `gorm:"type:string;size:8;not_null"`
 }
 
 type OrderItem struct {
 	BaseModel
-	Name             string             `gorm:"type:string;size:20;not null"`
+	Name             string             `gorm:"type:string;size:20;not_null"`
 	AllowSandPaper   bool               `gorm:"default:false"`
 	AllowDestruction bool               `gorm:"default:false"`
 	Status           common.OrderStatus `gorm:"default:pending"`

@@ -3,8 +3,8 @@ package models
 import "time"
 
 type BaseModel struct {
-	Id uint `gorm:"primary_key;auto_increment"`
+	Id uint `gorm:"primaryKey;autoIncrement"`
 
-	CreatedAt time.Time `gorm:"type:TIMESTAMP with time zone;not null"`
-	UpdatedAt time.Time `gorm:"type:TIMESTAMP with time zone;null"`
+	CreatedAt time.Time
+	UpdatedAt time.Time `gorm:"null"`
 }

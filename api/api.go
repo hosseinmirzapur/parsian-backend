@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -16,7 +17,9 @@ func InitServer() {
 	app.Use(middlewares.Cors())
 	RegisterRoutes(app)
 
-	app.Listen(":3000")
+	port := os.Getenv("PORT")
+
+	app.Listen(fmt.Sprintf(":%s", port))
 }
 
 func RegisterRoutes(app *fiber.App) {
