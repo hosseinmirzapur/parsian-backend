@@ -1,8 +1,11 @@
 FROM golang:1.20-alpine as build
-COPY . ./
 WORKDIR /app
+COPY . ./
 
-RUN go mod download && GOOS=linux GOARCH=arm64 go build -o main && chmod +x ./main
+RUN go mod init github.com/hosseinmirzapur/parsian-backend && \
+    go mod tidy && \
+    go build -o main ./cmd/main.go && \
+    chmod +x ./main
 
 FROM alpine:latest
 
