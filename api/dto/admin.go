@@ -10,8 +10,6 @@ type CreateAdminRequest struct {
 }
 
 type UpdateAdminRequest struct {
-	Username string           `json:"username,omitempty"`
-	Name     string           `json:"name,omitempty"`
-	Password string           `json:"password,omitempty"`
-	Role     common.AdminRole `json:"role,omitempty"`
+	Username string `json:"username,omitempty"`
+	Name     string `json:"name,omitempty"`
 }

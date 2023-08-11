@@ -9,17 +9,13 @@ import (
 
 func GenerateJWTToken(adminId string) (string, error) {
 
-	token := jwt.New(jwt.SigningMethodHS256)
+	claims := jwt.MapClaims{
+		"sub": adminId,
+		"exp": time.Now().Add(time.Hour * 72).Unix(),
+	}
 
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	secret := os.Getenv("JWT_SECRET")
-	now := time.Now().UTC()
-	claims := token.Claims.(jwt.MapClaims)
-
-	claims["sub"] = adminId
-	claims["exp"] = now.Add(time.Hour * 24).Unix()
-	claims["iat"] = now.Unix()
-	claims["nbf"] = now.Unix()
-
 	tokenString, err := token.SignedString([]byte(secret))
 
 	if err != nil {

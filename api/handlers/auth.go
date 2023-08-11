@@ -26,7 +26,7 @@ func (h *authHandler) Login(c *fiber.Ctx) error {
 	// Business Logic Section
 	token, admin, err := services.AdminLogin(req.Username, req.Password)
 
-	if err != nil && token != "" {
+	if err != nil || token == "" {
 		return c.Status(400).JSON(&fiber.Map{
 			"success": false,
 			"message": "Wrong username or password",

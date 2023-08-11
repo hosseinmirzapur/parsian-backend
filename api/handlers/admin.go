@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -47,7 +46,7 @@ func (h *adminHandler) CreateAdmin(c *fiber.Ctx) error {
 		})
 	}
 
-	admin, err := services.CreateAdmin(req.Username, req.Password, req.Name, fmt.Sprint(req.Role))
+	admin, err := services.CreateAdmin(req.Username, req.Password, req.Name, req.Role)
 
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{

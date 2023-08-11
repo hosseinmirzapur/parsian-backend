@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/hosseinmirzapur/parsian-backend/data/db/seeders"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -36,6 +37,10 @@ func InitDB() error {
 	}
 
 	log.Println("Database connection established...")
+
+	seeders.Seed(dbClient)
+
+	log.Println("Database seeded...")
 	return nil
 }
 
