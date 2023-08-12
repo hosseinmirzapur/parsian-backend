@@ -66,12 +66,24 @@ func UpdateAdmin(data *dto.UpdateAdminRequest, id uint) (models.Admin, error) {
 		},
 	}
 
-	err := dbClient.Model(&admin).Updates(data).Error
+	err := dbClient.First(&admin).Updates(data).Error
 
 	return admin, err
 }
 func DeleteAdmin(id uint) error {
 	dbClient := db.GetDB()
 
-	return dbClient.Delete(&models.Admin{BaseModel: models.BaseModel{Id: id}}).Error
+	admin := models.Admin{
+		BaseModel: models.BaseModel{
+			Id: id,
+		},
+	}
+
+	res := dbClient.Delete(&admin)
+
+	if res.RowsAffected == 0 {
+		return fmt.Errorf("admin not found")
+	}
+
+	return res.Error
 }

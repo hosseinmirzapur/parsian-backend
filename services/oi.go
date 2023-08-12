@@ -27,6 +27,7 @@ func CreateOrderItem(data *dto.CreateOrderItemRequest, orderId int) (models.Orde
 	orderItem.Name = data.Name
 	orderItem.Status = data.Status
 	orderItem.TestType = data.TestType
+	orderItem.FilePath = data.FilePath
 
 	err = dbClient.Model(&order).Association("OrderItems").Append(&orderItem)
 	return orderItem, err

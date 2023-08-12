@@ -1,9 +1,10 @@
 package services
 
 import (
+	"fmt"
+
 	"github.com/hosseinmirzapur/parsian-backend/api/dto"
 	"github.com/hosseinmirzapur/parsian-backend/api/helper"
-	"github.com/hosseinmirzapur/parsian-backend/common"
 	"github.com/hosseinmirzapur/parsian-backend/data/db"
 	"github.com/hosseinmirzapur/parsian-backend/data/models"
 )
@@ -22,7 +23,7 @@ func GetOrderById(id int) (models.Order, error) {
 		},
 	}
 	dbClient := db.GetDB()
-	err := dbClient.Preload("OrderItems").Find(&order).Error
+	err := dbClient.Preload("OrderItems").First(&order).Error
 	return order, err
 }
 
@@ -43,28 +44,21 @@ func UpdateOrder(data *dto.UpdateOrderRequest, id int) (models.Order, error) {
 			Id: uint(id),
 		},
 	}
-	err := dbClient.Model(&order).Preload("OrderItems").Updates(data).Error
+	err := dbClient.First(&order).Preload("OrderItems").Updates(data).Error
 	return order, err
 }
 
 func DeleteOrder(id int) error {
-	dbClient := db.GetDB()
-	return dbClient.Delete(&models.Order{BaseModel: models.BaseModel{Id: uint(id)}}).Error
-}
-
-func ChangeOrderStatus(id int, status common.OrderStatus) (models.Order, error) {
-	var err error
 	dbClient := db.GetDB()
 	order := models.Order{
 		BaseModel: models.BaseModel{
 			Id: uint(id),
 		},
 	}
-	for _, item := range *order.OrderItems {
-		err = dbClient.Model(&item).Update("status", status).Error
-		if err != nil {
-			return order, err
-		}
+	res := dbClient.Delete(&order)
+
+	if res.RowsAffected == 0 {
+		return fmt.Errorf("order with id %d not found", id)
 	}
-	return order, nil
+	return res.Error
 }

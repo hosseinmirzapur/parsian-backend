@@ -129,27 +129,3 @@ func (h *orderHandler) Delete(c *fiber.Ctx) error {
 		"message": "Operation Successful",
 	})
 }
-func (h *orderHandler) ChangeStatus(c *fiber.Ctx) error {
-
-	req := new(dto.ChangeOrderStatusRequest)
-	id := c.Params("id")
-	orderId, err := strconv.Atoi(id)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
-			"success": false,
-			"message": "bad request param",
-		})
-	}
-	c.BodyParser(&req)
-	_, err = services.ChangeOrderStatus(orderId, req.Status)
-	if err != nil {
-		return c.Status(fiber.StatusOK).JSON(&fiber.Map{
-			"success": false,
-			"message": "something went wrong changing the order status",
-		})
-	}
-	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
-		"success": true,
-		"message": "order status changed",
-	})
-}
