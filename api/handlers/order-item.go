@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"os"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -18,7 +19,7 @@ func NewOrderItemHandler() *orderItemHandler {
 func (h *orderItemHandler) Create(c *fiber.Ctx) error {
 
 	req := new(dto.CreateOrderItemRequest)
-	err := c.BodyParser(&req)
+	err := c.BodyParser(req)
 	if err != nil {
 		return c.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
 			"success": false,
@@ -47,10 +48,10 @@ func (h *orderItemHandler) Create(c *fiber.Ctx) error {
 			"message": "unable to save file",
 		})
 	}
-	req.FilePath = filepath
 
-	_, err = services.CreateOrderItem(req, orderId)
+	_, err = services.CreateOrderItem(req, filepath, orderId)
 	if err != nil {
+		os.Remove(filepath)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
 			"message": "unable to create order-item",
@@ -64,11 +65,11 @@ func (h *orderItemHandler) Create(c *fiber.Ctx) error {
 }
 func (h *orderItemHandler) Update(c *fiber.Ctx) error {
 	req := new(dto.UpdateOrderItemRequest)
-	err := c.BodyParser(&req)
+	err := c.BodyParser(req)
 	if err != nil {
 		return c.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
 			"success": false,
-			"message": "invalid request body",
+			"message": err.Error(),
 		})
 	}
 	id := c.Params("id")
@@ -79,12 +80,11 @@ func (h *orderItemHandler) Update(c *fiber.Ctx) error {
 			"message": "invalid url params",
 		})
 	}
-
 	orderItem, err := services.UpdateOrderItem(req, orderItemId)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
-			"message": "unable to update order-item",
+			"message": err.Error(),
 		})
 	}
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
@@ -98,14 +98,14 @@ func (h *orderItemHandler) Delete(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
-			"message": "invalid url params",
+			"message": err.Error(),
 		})
 	}
 	err = services.DeleteOrderItem(orderItemId)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
-			"message": "unable to delete order-item",
+			"message": err.Error(),
 		})
 	}
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{

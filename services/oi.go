@@ -8,7 +8,7 @@ import (
 	"github.com/hosseinmirzapur/parsian-backend/data/models"
 )
 
-func CreateOrderItem(data *dto.CreateOrderItemRequest, orderId int) (models.OrderItem, error) {
+func CreateOrderItem(data *dto.CreateOrderItemRequest, filepath string, orderId int) (models.OrderItem, error) {
 	dbClient := db.GetDB()
 	order := models.Order{
 		BaseModel: models.BaseModel{
@@ -27,9 +27,10 @@ func CreateOrderItem(data *dto.CreateOrderItemRequest, orderId int) (models.Orde
 	orderItem.Name = data.Name
 	orderItem.Status = data.Status
 	orderItem.TestType = data.TestType
-	orderItem.FilePath = data.FilePath
+	orderItem.FilePath = filepath
+	orderItem.Order = order
 
-	err = dbClient.Model(&order).Association("OrderItems").Append(&orderItem)
+	err = dbClient.Create(&orderItem).Error
 	return orderItem, err
 }
 
@@ -40,7 +41,7 @@ func UpdateOrderItem(data *dto.UpdateOrderItemRequest, oiId int) (models.OrderIt
 			Id: uint(oiId),
 		},
 	}
-	err := dbClient.Model(&orderItem).Updates(data).Error
+	err := dbClient.First(&orderItem).Updates(data).Error
 	return orderItem, err
 }
 
@@ -52,7 +53,11 @@ func DeleteOrderItem(oiId int) error {
 		},
 	}
 
-	err := os.Remove("../" + orderItem.FilePath)
+	err := dbClient.First(&orderItem).Error
+	if err != nil {
+		return err
+	}
+	err = os.Remove(orderItem.FilePath)
 	if err != nil {
 		return err
 	}

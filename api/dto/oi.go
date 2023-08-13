@@ -1,6 +1,8 @@
 package dto
 
-import "github.com/hosseinmirzapur/parsian-backend/common"
+import (
+	"github.com/hosseinmirzapur/parsian-backend/common"
+)
 
 type CreateOrderItemRequest struct {
 	Name             string             `json:"name" validation:"required"`
@@ -10,7 +12,6 @@ type CreateOrderItemRequest struct {
 	TestType         common.TestType    `json:"test_type" validation:"required"`
 	Quantity         uint               `json:"quantity" validation:"required"`
 	Description      string             `json:"description" validation:"required"`
-	FilePath         string             `json:"file_path" validation:"required"`
 }
 
 type UpdateOrderItemRequest struct {
