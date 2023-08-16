@@ -13,4 +13,5 @@ func SetupOrder(router fiber.Router) {
 	router.Post("/create", h.Create)
 	router.Put("/update/:id", h.Update)
 	router.Delete("/delete/:id", h.Delete)
+	router.Get("/:specialId", h.GetBySpecialId)
 }

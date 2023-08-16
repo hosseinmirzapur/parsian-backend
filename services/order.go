@@ -63,3 +63,13 @@ func DeleteOrder(id int) error {
 	}
 	return res.Error
 }
+
+func FindOrderBySpecialId(specialId string) (models.Order, error) {
+	dbClient := db.GetDB()
+
+	order := models.Order{}
+
+	err := dbClient.Where("special_id = ?", specialId).First(&order).Error
+
+	return order, err
+}

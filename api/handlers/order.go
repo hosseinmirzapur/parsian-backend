@@ -129,3 +129,21 @@ func (h *orderHandler) Delete(c *fiber.Ctx) error {
 		"message": "Operation Successful",
 	})
 }
+
+func (h *orderHandler) GetBySpecialId(c *fiber.Ctx) error {
+	specialId := c.Params("specialId")
+
+	order, err := services.FindOrderBySpecialId(specialId)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"success": false,
+			"message": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
+		"success": true,
+		"order":   order,
+	})
+}
