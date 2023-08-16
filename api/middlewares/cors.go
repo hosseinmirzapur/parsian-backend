@@ -6,5 +6,8 @@ import (
 )
 
 func Cors() func(c *fiber.Ctx) error {
-	return cors.New()
+	return cors.New(cors.Config{
+		AllowOrigins: "https://parsian-admin.vercel.app",
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization, X-Requested-With, Accept-Language, Accept-Encoding, Referer, User-Agent, Cookie",
+	})
 }
