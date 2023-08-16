@@ -15,22 +15,7 @@ func NewOrderHandler() *orderHandler {
 }
 
 func (h *orderHandler) GetAll(c *fiber.Ctx) error {
-	perPage, err := strconv.Atoi(c.Query("perpage", "10"))
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
-			"success": false,
-			"message": err.Error(),
-		})
-	}
-	currentPage, err := strconv.Atoi(c.Query("currentpage", "1"))
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
-			"success": false,
-			"message": err.Error(),
-		})
-	}
-
-	orders, err := services.AllOrders(perPage, currentPage)
+	orders, err := services.AllOrders()
 
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
