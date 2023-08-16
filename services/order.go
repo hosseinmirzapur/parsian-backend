@@ -7,12 +7,18 @@ import (
 	"github.com/hosseinmirzapur/parsian-backend/api/helper"
 	"github.com/hosseinmirzapur/parsian-backend/data/db"
 	"github.com/hosseinmirzapur/parsian-backend/data/models"
+	"github.com/hosseinmirzapur/parsian-backend/utils"
 )
 
-func AllOrders() ([]models.Order, error) {
+func AllOrders(perPage, currentPage int) ([]models.Order, error) {
 	dbClient := db.GetDB()
 	var orders []models.Order
-	err := dbClient.Preload("OrderItems").Find(&orders).Error
+	query := dbClient.Find(&orders)
+	if query.Error != nil {
+		return orders, query.Error
+	}
+	pg := utils.NewPaginationConfig(perPage, len(orders), currentPage)
+	err := pg.Paginate(query).Error
 	return orders, err
 }
 

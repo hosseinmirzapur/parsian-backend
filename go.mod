@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/joho/godotenv v1.5.1
 	gorm.io/driver/mysql v1.5.1
-	gorm.io/gorm v1.25.2
+	gorm.io/gorm v1.25.3
 )
 
 require (
@@ -29,6 +29,7 @@ require (
 	github.com/gohugoio/hugo v0.117.0 // indirect
 	github.com/golang-jwt/jwt/v5 v5.0.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
+	github.com/iancoleman/strcase v0.3.0 // indirect
 	github.com/imdario/mergo v0.3.16 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
@@ -37,6 +38,8 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
+	github.com/morkid/gocache v1.0.0 // indirect
+	github.com/morkid/paginate v1.1.6 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.9 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
