@@ -12,7 +12,7 @@ import (
 func AllOrders() ([]models.Order, error) {
 	dbClient := db.GetDB()
 	var orders []models.Order
-	query := dbClient.Preload("OrderItems").Find(&orders).Limit(100)
+	query := dbClient.Preload("OrderItems").Find(&orders).Limit(50)
 
 	return orders, query.Error
 }
