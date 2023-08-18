@@ -39,3 +39,9 @@ func (h *authHandler) Login(c *fiber.Ctx) error {
 		"admin":   admin,
 	}) // it's gonna change in the future...
 }
+
+func (h *authHandler) IsLoggedIn(c *fiber.Ctx) error {
+	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
+		"loggedIn": true,
+	})
+}
