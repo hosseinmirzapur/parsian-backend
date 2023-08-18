@@ -69,7 +69,7 @@ func FindOrderBySpecialId(specialId string) (models.Order, error) {
 
 	order := models.Order{}
 
-	err := dbClient.Where("special_id = ?", specialId).First(&order).Error
+	err := dbClient.Where("special_id = ?", specialId).Preload("OrderItems").First(&order).Error
 
 	return order, err
 }
