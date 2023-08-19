@@ -20,6 +20,7 @@ func CreateOrderItem(data *dto.CreateOrderItemRequest, filepath string, orderId 
 	if err != nil {
 		return orderItem, err
 	}
+
 	orderItem.AllowDestruction = data.AllowDestruction
 	orderItem.AllowSandPaper = data.AllowSandPaper
 	orderItem.Description = data.Description
@@ -27,7 +28,7 @@ func CreateOrderItem(data *dto.CreateOrderItemRequest, filepath string, orderId 
 	orderItem.Name = data.Name
 	orderItem.Status = data.Status
 	orderItem.TestType = data.TestType
-	orderItem.FilePath = filepath
+	orderItem.FilePath = "/storage" + filepath
 	orderItem.Order = order
 
 	err = dbClient.Create(&orderItem).Error

@@ -27,7 +27,7 @@ func InitServer() {
 
 func RegisterRoutes(app *fiber.App) {
 	// Serve Static Files
-	app.Static("/", "./public")
+	app.Static("/storage", "./public")
 
 	// Api Related Stuff
 	api := app.Group("/api")

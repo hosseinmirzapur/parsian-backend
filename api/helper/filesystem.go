@@ -28,7 +28,7 @@ func UploadCtxFile(c *fiber.Ctx) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filePath, nil
+	return filePath[7:], nil
 }
 
 func UploadToAWS(c *fiber.Ctx) (string, error) {
@@ -63,5 +63,4 @@ func UploadToAWS(c *fiber.Ctx) (string, error) {
 	}
 
 	return result.Location, nil
-
 }
