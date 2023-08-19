@@ -10,8 +10,12 @@ import (
 
 func LoadAWSConfig() aws.Config {
 
-	cfg, err := awsCfg.LoadDefaultConfig(context.TODO())
-	cfg.Region = "us-east-1"
+	cfg, err := awsCfg.LoadDefaultConfig(context.TODO(), func(options *awsCfg.LoadOptions) error {
+		options.Region = "us-east-1"
+		options.EC2IMDSEndpoint = "https://parsian.storage.iran.liara.space"
+
+		return nil
+	})
 
 	if err != nil {
 		log.Fatal(err)
