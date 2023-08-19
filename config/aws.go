@@ -11,6 +11,7 @@ import (
 func LoadAWSConfig() aws.Config {
 
 	cfg, err := awsCfg.LoadDefaultConfig(context.TODO())
+	cfg.Region = "us-east-1"
 
 	if err != nil {
 		log.Fatal(err)
