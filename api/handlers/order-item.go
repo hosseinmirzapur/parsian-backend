@@ -41,7 +41,7 @@ func (h *orderItemHandler) Create(c *fiber.Ctx) error {
 			"message": "invalid file upload",
 		})
 	}
-	filepath, err := helper.UploadToAWS(c)
+	filepath, err := helper.UploadCtxFile(c)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
