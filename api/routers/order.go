@@ -14,4 +14,5 @@ func SetupOrder(router fiber.Router) {
 	router.Put("/update/:id", h.Update)
 	router.Delete("/delete/:id", h.Delete)
 	router.Get("/special/:specialId", h.GetBySpecialId)
+	router.Get("/excel", h.GetExcelFile)
 }

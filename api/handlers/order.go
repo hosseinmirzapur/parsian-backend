@@ -147,3 +147,19 @@ func (h *orderHandler) GetBySpecialId(c *fiber.Ctx) error {
 		"order":   order,
 	})
 }
+
+func (h *orderHandler) GetExcelFile(c *fiber.Ctx) error {
+	orders, err := services.GetExcelFile()
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"success": false,
+			"message": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
+		"success": true,
+		"excel":   orders,
+	})
+}

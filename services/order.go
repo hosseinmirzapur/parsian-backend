@@ -7,6 +7,7 @@ import (
 	"github.com/hosseinmirzapur/parsian-backend/api/helper"
 	"github.com/hosseinmirzapur/parsian-backend/data/db"
 	"github.com/hosseinmirzapur/parsian-backend/data/models"
+	"github.com/xuri/excelize/v2"
 )
 
 func AllOrders() ([]models.Order, error) {
@@ -72,4 +73,17 @@ func FindOrderBySpecialId(specialId string) (models.Order, error) {
 	err := dbClient.Where("special_id = ?", specialId).Preload("OrderItems").First(&order).Error
 
 	return order, err
+}
+
+func GetExcelFile() (string, error) {
+	var err error
+	f := excelize.NewFile()
+	defer func() {
+		if err := f.Close(); err != nil {
+			fmt.Println(err)
+		}
+	}()
+
+	return "", err
+
 }
