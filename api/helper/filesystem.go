@@ -24,6 +24,8 @@ func UploadCtxFile(c *fiber.Ctx) (string, error) {
 	filename := strings.Replace(uniqueId.String(), "-", "", -1)
 	fileExt := strings.Split(file.Filename, ".")[1]
 	filePath := fmt.Sprintf("public/%s.%s", filename, fileExt)
+
+	// Save FIle locally
 	err = c.SaveFile(file, "public")
 	if err != nil {
 		return "", err
@@ -32,11 +34,8 @@ func UploadCtxFile(c *fiber.Ctx) (string, error) {
 }
 
 func UploadToAWS(c *fiber.Ctx) (string, error) {
-	// load AWS config
-	cfg := config.LoadAWSConfig()
-
-	// Create Uploader
-	client := s3.NewFromConfig(cfg)
+	// load AWS config & Create uploader
+	client := config.GetClient()
 	uploader := manager.NewUploader(client)
 
 	// Create Filename
@@ -46,6 +45,8 @@ func UploadToAWS(c *fiber.Ctx) (string, error) {
 	}
 	uniqueId := uuid.New()
 	filename := strings.Replace(uniqueId.String(), "-", "", -1)
+	fileExt := strings.Split(file.Filename, ".")[1]
+	filePath := fmt.Sprintf("%s.%s", filename, fileExt)
 
 	// Upload File
 	f, err := file.Open()
@@ -54,7 +55,7 @@ func UploadToAWS(c *fiber.Ctx) (string, error) {
 	}
 	result, err := uploader.Upload(context.TODO(), &s3.PutObjectInput{
 		Bucket: aws.String("parsian"),
-		Key:    aws.String(filename),
+		Key:    aws.String(filePath),
 		Body:   f,
 	})
 

@@ -28,7 +28,7 @@ func CreateOrderItem(data *dto.CreateOrderItemRequest, filepath string, orderId 
 	orderItem.Name = data.Name
 	orderItem.Status = data.Status
 	orderItem.TestType = data.TestType
-	orderItem.FilePath = "/storage" + filepath
+	orderItem.FilePath = filepath
 	orderItem.Order = order
 
 	err = dbClient.Create(&orderItem).Error
