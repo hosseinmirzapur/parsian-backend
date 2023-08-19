@@ -24,7 +24,7 @@ func UploadCtxFile(c *fiber.Ctx) (string, error) {
 	filename := strings.Replace(uniqueId.String(), "-", "", -1)
 	fileExt := strings.Split(file.Filename, ".")[1]
 	filePath := fmt.Sprintf("public/%s.%s", filename, fileExt)
-	err = c.SaveFile(file, filePath)
+	err = c.SaveFile(file, "public")
 	if err != nil {
 		return "", err
 	}
