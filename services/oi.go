@@ -1,8 +1,6 @@
 package services
 
 import (
-	"os"
-
 	"github.com/hosseinmirzapur/parsian-backend/api/dto"
 	"github.com/hosseinmirzapur/parsian-backend/data/db"
 	"github.com/hosseinmirzapur/parsian-backend/data/models"
@@ -58,9 +56,6 @@ func DeleteOrderItem(oiId int) error {
 	if err != nil {
 		return err
 	}
-	err = os.Remove(orderItem.FilePath)
-	if err != nil {
-		return err
-	}
+
 	return dbClient.Delete(&orderItem).Error
 }
