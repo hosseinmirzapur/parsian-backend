@@ -14,4 +14,5 @@ type TestType string
 const (
 	ANALYZE  TestType = "analyze"
 	HARDNESS TestType = "hardness"
+	BOTH     TestType = "both"
 )

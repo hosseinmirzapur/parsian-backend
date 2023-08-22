@@ -42,12 +42,15 @@ func (h *orderItemHandler) Create(c *fiber.Ctx) error {
 		})
 	}
 	// filepath, err := helper.UploadCtxFile(c)
-	filepath, err := helper.UploadToAWS(c)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"success": false,
-			"message": err.Error(),
-		})
+	filepath := ""
+	if _, err := c.FormFile("image"); err == nil {
+		filepath, err = helper.UploadToAWS(c)
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"success": false,
+				"message": err.Error(),
+			})
+		}
 	}
 
 	_, err = services.CreateOrderItem(req, filepath, orderId)
