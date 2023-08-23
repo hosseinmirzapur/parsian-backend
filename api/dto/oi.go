@@ -6,8 +6,8 @@ type CreateOrderItemRequest struct {
 	AllowDestruction bool   `json:"allow_destruction" validation:"required"`
 	Status           string `json:"status" validation:"required"`
 	TestType         string `json:"test_type" validation:"required"`
-	Quantity         uint   `json:"quantity" validation:"required"`
-	Description      string `json:"description" validation:"required"`
+	Quantity         uint   `json:"quantity" validation:"required,min=1"`
+	Description      string `json:"description"`
 }
 
 type UpdateOrderItemRequest struct {
