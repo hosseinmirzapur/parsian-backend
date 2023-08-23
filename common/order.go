@@ -1,6 +1,7 @@
 package common
 
 type OrderStatus string
+type TestType string
 
 const (
 	PENDING OrderStatus = "pending"
@@ -8,8 +9,6 @@ const (
 	OFFICE  OrderStatus = "office"
 	PAID    OrderStatus = "paid"
 )
-
-type TestType string
 
 const (
 	ANALYZE  TestType = "analyze"
