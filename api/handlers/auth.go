@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/hosseinmirzapur/parsian-backend/api/dto"
+	validation "github.com/hosseinmirzapur/parsian-backend/api/validations"
 	"github.com/hosseinmirzapur/parsian-backend/services"
 )
 
@@ -21,6 +22,15 @@ func (h *authHandler) Login(c *fiber.Ctx) error {
 	err = c.BodyParser(&req)
 	if err != nil {
 		return c.Status(fiber.StatusUnprocessableEntity).JSON(err)
+	}
+
+	errs, ok := validation.ValidateData(req)
+
+	if !ok {
+		return c.Status(400).JSON(&fiber.Map{
+			"success": false,
+			"message": errs,
+		})
 	}
 
 	// Business Logic Section

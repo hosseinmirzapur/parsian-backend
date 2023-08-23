@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/hosseinmirzapur/parsian-backend/api/dto"
 	"github.com/hosseinmirzapur/parsian-backend/api/helper"
+	validation "github.com/hosseinmirzapur/parsian-backend/api/validations"
 	"github.com/hosseinmirzapur/parsian-backend/services"
 )
 
@@ -23,7 +24,16 @@ func (h *orderItemHandler) Create(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
 			"success": false,
-			"message": "invalid request",
+			"message": err.Error(),
+		})
+	}
+
+	errs, ok := validation.ValidateData(req)
+
+	if !ok {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"message": errs,
 		})
 	}
 
@@ -76,6 +86,15 @@ func (h *orderItemHandler) Update(c *fiber.Ctx) error {
 			"message": err.Error(),
 		})
 	}
+
+	errs, ok := validation.ValidateData(req)
+	if !ok {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"message": errs,
+		})
+	}
+
 	id := c.Params("id")
 	orderItemId, err := strconv.Atoi(id)
 	if err != nil {

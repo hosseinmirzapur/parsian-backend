@@ -1,8 +1,8 @@
 package dto
 
 type CreateOrderRequest struct {
-	PhoneNumber  string `json:"phone_number" validation:"required"`
-	CustomerName string `json:"customer_name" validation:"required"`
+	PhoneNumber  string `json:"phone_number" validate:"required,numeric,size=11"`
+	CustomerName string `json:"customer_name" validate:"required"`
 }
 
 type UpdateOrderRequest struct {

@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/hosseinmirzapur/parsian-backend/api/dto"
+	validation "github.com/hosseinmirzapur/parsian-backend/api/validations"
 	"github.com/hosseinmirzapur/parsian-backend/data/db"
 	"github.com/hosseinmirzapur/parsian-backend/data/models"
 	"github.com/hosseinmirzapur/parsian-backend/services"
@@ -42,7 +43,16 @@ func (h *adminHandler) CreateAdmin(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusUnprocessableEntity).JSON(&fiber.Map{
 			"success": false,
-			"message": "Invalid request body",
+			"message": err.Error(),
+		})
+	}
+
+	errs, ok := validation.ValidateData(req)
+
+	if !ok {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"success": false,
+			"message": errs,
 		})
 	}
 
@@ -68,7 +78,16 @@ func (h *adminHandler) UpdateAdmin(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusUnprocessableEntity).JSON(&fiber.Map{
 			"success": false,
-			"message": "Invalid request body",
+			"message": err.Error(),
+		})
+	}
+
+	errs, ok := validation.ValidateData(req)
+
+	if !ok {
+		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+			"success": false,
+			"message": errs,
 		})
 	}
 
