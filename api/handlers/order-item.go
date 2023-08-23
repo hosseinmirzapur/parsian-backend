@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"os"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -63,9 +62,8 @@ func (h *orderItemHandler) Create(c *fiber.Ctx) error {
 		}
 	}
 
-	_, err = services.CreateOrderItem(req, filepath, orderId)
+	oi, err := services.CreateOrderItem(req, filepath, orderId)
 	if err != nil {
-		os.Remove(filepath)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
 			"message": "unable to create order-item",
@@ -73,8 +71,9 @@ func (h *orderItemHandler) Create(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"success": true,
-		"message": "order-item created successfully",
+		"success":   true,
+		"message":   "order-item created successfully",
+		"orderItem": oi,
 	})
 }
 func (h *orderItemHandler) Update(c *fiber.Ctx) error {
