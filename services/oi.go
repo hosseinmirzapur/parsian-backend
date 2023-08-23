@@ -2,7 +2,6 @@ package services
 
 import (
 	"github.com/hosseinmirzapur/parsian-backend/api/dto"
-	"github.com/hosseinmirzapur/parsian-backend/common"
 	"github.com/hosseinmirzapur/parsian-backend/data/db"
 	"github.com/hosseinmirzapur/parsian-backend/data/models"
 )
@@ -25,8 +24,8 @@ func CreateOrderItem(data *dto.CreateOrderItemRequest, filepath string, orderId 
 	orderItem.Description = data.Description
 	orderItem.Quantity = data.Quantity
 	orderItem.Name = data.Name
-	orderItem.Status = common.OrderStatus(data.Status)
-	orderItem.TestType = common.TestType(data.TestType)
+	orderItem.Status = data.Status
+	orderItem.TestType = data.TestType
 	orderItem.FilePath = filepath
 	orderItem.Order = order
 

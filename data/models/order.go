@@ -1,7 +1,5 @@
 package models
 
-import "github.com/hosseinmirzapur/parsian-backend/common"
-
 type Order struct {
 	BaseModel
 	OrderItems   *[]OrderItem
@@ -12,14 +10,14 @@ type Order struct {
 
 type OrderItem struct {
 	BaseModel
-	Name             string             `gorm:"type:string;size:20;not_null"`
-	AllowSandPaper   bool               `gorm:"default:false"`
-	AllowDestruction bool               `gorm:"default:false"`
-	Status           common.OrderStatus `gorm:"default:pending"`
-	TestType         common.TestType    `gorm:"default:analyze"`
-	Quantity         uint               `gorm:"default:1"`
-	Description      string             `gorm:"type:text"`
-	FilePath         string             `gorm:"type:string;size:255"`
-	Order            Order              `gorm:"foreignkey:OrderId;constraint:onDelete:Cascade"`
+	Name             string `gorm:"type:string;size:20;not_null"`
+	AllowSandPaper   bool   `gorm:"default:false"`
+	AllowDestruction bool   `gorm:"default:false"`
+	Status           string `gorm:"default:pending"`
+	TestType         string `gorm:"default:analyze"`
+	Quantity         uint   `gorm:"default:1"`
+	Description      string `gorm:"type:text"`
+	FilePath         string `gorm:"type:string;size:255"`
+	Order            Order  `gorm:"foreignkey:OrderId;constraint:onDelete:Cascade"`
 	OrderId          uint
 }
