@@ -62,7 +62,7 @@ func (h *orderItemHandler) Create(c *fiber.Ctx) error {
 		}
 	}
 
-	oi, err := services.CreateOrderItem(req, filepath, orderId)
+	err = services.CreateOrderItem(req, filepath, orderId)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
@@ -71,9 +71,8 @@ func (h *orderItemHandler) Create(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"success":   true,
-		"message":   "order-item created successfully",
-		"orderItem": oi,
+		"success": true,
+		"message": "order-item created successfully",
 	})
 }
 func (h *orderItemHandler) Update(c *fiber.Ctx) error {
