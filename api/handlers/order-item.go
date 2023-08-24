@@ -18,21 +18,11 @@ func NewOrderItemHandler() *orderItemHandler {
 
 func (h *orderItemHandler) Create(c *fiber.Ctx) error {
 
-	req := new(dto.CreateOrderItemRequest)
-	err := c.BodyParser(req)
+	req, err := dto.ValidateCreateOrderForm(c)
 	if err != nil {
-		return c.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
-			"success": false,
-			"message": err.Error(),
-		})
-	}
-
-	errs, ok := validation.ValidateData(req)
-
-	if !ok {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"success": false,
-			"message": errs,
+			"success":  false,
+			"messsage": err.Error(),
 		})
 	}
 
@@ -62,7 +52,7 @@ func (h *orderItemHandler) Create(c *fiber.Ctx) error {
 		}
 	}
 
-	err = services.CreateOrderItem(req, filepath, orderId)
+	err = services.CreateOrderItem(&req, filepath, orderId)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,

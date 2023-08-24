@@ -20,8 +20,8 @@ func CreateOrderItem(data *dto.CreateOrderItemRequest, filepath string, orderId 
 	}
 
 	err = dbClient.Create(&models.OrderItem{
-		AllowDestruction: data.AllowDestruction == 1,
-		AllowSandPaper:   data.AllowSandPaper == 1,
+		AllowDestruction: data.AllowDestruction,
+		AllowSandPaper:   data.AllowSandPaper,
 		Description:      data.Description,
 		Quantity:         data.Quantity,
 		Name:             data.Name,
