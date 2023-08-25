@@ -26,22 +26,12 @@ func InitServer() {
 }
 
 func RegisterRoutes(app *fiber.App) {
-	// Serve Static Files
-	app.Static("/storage", "./public")
 
 	// Api Related Stuff
 	api := app.Group("/api")
 
-	// Test Route
-	api.Get("/test", func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusOK).JSON(&fiber.Map{
-			"healthy": true,
-		})
-	})
-
 	v1 := api.Group("/v1")
 	{
-
 		// Auth
 		authRouter := v1.Group("/auth")
 		routers.SetupAuth(authRouter)
