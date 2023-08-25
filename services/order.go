@@ -2,12 +2,13 @@ package services
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/hosseinmirzapur/parsian-backend/api/dto"
 	"github.com/hosseinmirzapur/parsian-backend/api/helper"
 	"github.com/hosseinmirzapur/parsian-backend/data/db"
 	"github.com/hosseinmirzapur/parsian-backend/data/models"
-	"github.com/xuri/excelize/v2"
+	"github.com/hosseinmirzapur/parsian-backend/utils"
 )
 
 func AllOrders() ([]models.Order, error) {
@@ -76,14 +77,28 @@ func FindOrderBySpecialId(specialId string) (models.Order, error) {
 }
 
 func GetExcelFile() (string, error) {
-	var err error
-	f := excelize.NewFile()
-	defer func() {
-		if err := f.Close(); err != nil {
-			fmt.Println(err)
-		}
-	}()
 
-	return "", err
+	dbClient := db.GetDB()
+
+	var orderItems []models.OrderItem
+
+	err := dbClient.Find(orderItems).Limit(50).Error
+
+	if err != nil {
+		return "", err
+	}
+	// Exports data into export.xlsx
+	err = utils.ExcelExport(orderItems)
+	if err != nil {
+		return "", err
+	}
+	// Upload file to AWS Bucket and then removes it locally
+	path, err := utils.UploadToAWS("export.xlsx")
+	os.Remove("export.xlsx")
+
+	if err != nil {
+		return "", err
+	}
+	return path, nil
 
 }
