@@ -19,5 +19,4 @@ func ValidateData(data interface{}) (map[string]string, bool) {
 	}
 
 	return validationErrors, true
-
 }

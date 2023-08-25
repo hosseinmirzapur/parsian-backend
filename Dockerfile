@@ -1,10 +1,13 @@
 FROM golang:1.20-alpine as build
 WORKDIR /app
-COPY . ./
 
-RUN go mod init github.com/hosseinmirzapur/parsian-backend && \
-    go mod tidy && \
-    go build -o main ./cmd/main.go && \
+
+COPY go.* ./
+
+RUN go mod download
+
+COPY . ./
+RUN go build -o main ./cmd/main.go && \
     chmod +x ./main
 
 FROM alpine:latest
