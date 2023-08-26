@@ -24,10 +24,12 @@ func UploadToAWS(file *bytes.Buffer) (string, error) {
 	fileFullname := fmt.Sprintf("parsian-%s.xlsx", fileMidName)
 
 	// Upload File to AWS
+	contentTypes := "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 	result, err := uploader.Upload(context.TODO(), &s3.PutObjectInput{
-		Bucket: aws.String("parsian"),
-		Key:    aws.String(fileFullname),
-		Body:   bytes.NewReader(file.Bytes()),
+		Bucket:      aws.String("parsian"),
+		Key:         aws.String(fileFullname),
+		Body:        bytes.NewReader(file.Bytes()),
+		ContentType: &contentTypes,
 	})
 
 	if err != nil {
