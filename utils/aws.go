@@ -27,7 +27,7 @@ func UploadToAWS(file *bytes.Buffer) (string, error) {
 	result, err := uploader.Upload(context.TODO(), &s3.PutObjectInput{
 		Bucket: aws.String("parsian"),
 		Key:    aws.String(fileFullname),
-		Body:   file,
+		Body:   bytes.NewReader(file.Bytes()),
 	})
 
 	if err != nil {
