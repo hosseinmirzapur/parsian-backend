@@ -7,7 +7,7 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-func ExcelExport(data []models.OrderItem) error {
+func ExcelExport(data []models.OrderItem) (*excelize.File, error) {
 	f := excelize.NewFile()
 
 	defer func() {
@@ -20,7 +20,7 @@ func ExcelExport(data []models.OrderItem) error {
 	sheet := "Sheet1"
 	index, err := f.NewSheet(sheet)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	f.SetActiveSheet(index)
 
@@ -44,8 +44,9 @@ func ExcelExport(data []models.OrderItem) error {
 		f.SetCellValue(sheet, getCell(i+2, 7), item.FilePath)
 	}
 
-	// Save File
-	return f.SaveAs("export.xlsx")
+	// Return File
+
+	return f, nil
 
 }
 

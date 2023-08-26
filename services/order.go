@@ -77,26 +77,29 @@ func FindOrderBySpecialId(specialId string) (models.Order, error) {
 
 func GetExcelFile() (string, error) {
 
+	// Retrieve orders
 	dbClient := db.GetDB()
-
 	var orderItems []models.OrderItem
-
-	err := dbClient.Find(&orderItems).Limit(50).Error
-
+	err := dbClient.Find(&orderItems).Error
 	if err != nil {
 		return "", err
 	}
 	// Exports data into export.xlsx
-	err = utils.ExcelExport(orderItems)
+	excel, err := utils.ExcelExport(orderItems)
 	if err != nil {
 		return "", err
 	}
-	// Upload file to AWS Bucket and then removes it locally
-	path, err := utils.UploadToAWS("export.xlsx")
-	if err != nil {
-		return "", err
-	}
+	// Convetting file to buffer
+	file, err := excel.WriteToBuffer()
 
+	if err != nil {
+		return "", err
+	}
+	// Upload file to AWS Bucket
+	path, err := utils.UploadToAWS(file)
+	if err != nil {
+		return "", err
+	}
 	return path, nil
 
 }
