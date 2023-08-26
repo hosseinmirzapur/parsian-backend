@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
-	// "github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/hosseinmirzapur/parsian-backend/api/middlewares"
 	"github.com/hosseinmirzapur/parsian-backend/api/routers"
 )
@@ -14,7 +14,7 @@ func InitServer() {
 	app := fiber.New(fiber.Config{
 		AppName: os.Getenv("APP_NAME"),
 	})
-	// app.Use(logger.New())
+	app.Use(logger.New())
 
 	app.Use(middlewares.Cors())
 
