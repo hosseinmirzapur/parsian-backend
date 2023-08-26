@@ -9,7 +9,7 @@ RUN go mod init github.com/hosseinmirzapur/parsian-backend && \
 
 FROM debian:latest
 
-RUN apk --no-cache add bash
+RUN apt-get -y install bash
 
 WORKDIR /app
 
