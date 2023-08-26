@@ -7,7 +7,7 @@ RUN go mod init github.com/hosseinmirzapur/parsian-backend && \
     go build -o main ./cmd/main.go && \
     chmod +x ./main
 
-FROM alpine:latest
+FROM debian:latest
 
 RUN apk --no-cache add bash
 
