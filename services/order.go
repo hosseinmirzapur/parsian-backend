@@ -2,7 +2,6 @@ package services
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/hosseinmirzapur/parsian-backend/api/dto"
 	"github.com/hosseinmirzapur/parsian-backend/api/helper"
@@ -82,7 +81,7 @@ func GetExcelFile() (string, error) {
 
 	var orderItems []models.OrderItem
 
-	err := dbClient.Find(orderItems).Limit(50).Error
+	err := dbClient.Find(&orderItems).Limit(50).Error
 
 	if err != nil {
 		return "", err
@@ -94,11 +93,10 @@ func GetExcelFile() (string, error) {
 	}
 	// Upload file to AWS Bucket and then removes it locally
 	path, err := utils.UploadToAWS("export.xlsx")
-	os.Remove("export.xlsx")
-
 	if err != nil {
 		return "", err
 	}
+
 	return path, nil
 
 }
