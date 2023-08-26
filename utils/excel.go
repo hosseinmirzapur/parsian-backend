@@ -25,13 +25,13 @@ func ExcelExport(data []models.OrderItem) (*excelize.File, error) {
 	f.SetActiveSheet(index)
 
 	// Set Headers
-	f.SetCellValue(sheet, "A1", "name")
-	f.SetCellValue(sheet, "A2", "allow sand paper")
-	f.SetCellValue(sheet, "A3", "allow destruction")
-	f.SetCellValue(sheet, "A4", "order item status")
-	f.SetCellValue(sheet, "A5", "test type")
-	f.SetCellValue(sheet, "A6", "quantity")
-	f.SetCellValue(sheet, "A7", "image url")
+	f.SetCellValue(sheet, "A1", "نام")
+	f.SetCellValue(sheet, "B1", "اجازه سنباده")
+	f.SetCellValue(sheet, "C1", "اجازه تخریب")
+	f.SetCellValue(sheet, "D1", "وضعیت")
+	f.SetCellValue(sheet, "E1", "نوع آزمون")
+	f.SetCellValue(sheet, "F1", "تعداد")
+	f.SetCellValue(sheet, "G1", "لینک عکس")
 
 	// Set Data
 	for i, item := range data {
@@ -45,7 +45,6 @@ func ExcelExport(data []models.OrderItem) (*excelize.File, error) {
 	}
 
 	// Return File
-
 	return f, nil
 
 }
