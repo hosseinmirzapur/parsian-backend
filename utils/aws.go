@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"bytes"
 	"context"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -13,7 +13,7 @@ import (
 	"github.com/hosseinmirzapur/parsian-backend/config"
 )
 
-func UploadToAWS(file *bytes.Buffer) (string, error) {
+func UploadToAWS(file *os.File) (string, error) {
 	// Load AWS Config
 	client := config.GetClient()
 	uploader := manager.NewUploader(client)
@@ -23,13 +23,11 @@ func UploadToAWS(file *bytes.Buffer) (string, error) {
 	fileMidName := strings.Replace(uniqueId.String(), "-", "", -1)
 	fileFullname := fmt.Sprintf("parsian-%s.xlsx", fileMidName)
 
-	// Upload File to AWS
-	contentTypes := "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+	// Upload File to AWScontentTypes := "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 	result, err := uploader.Upload(context.TODO(), &s3.PutObjectInput{
-		Bucket:      aws.String("parsian"),
-		Key:         aws.String(fileFullname),
-		Body:        bytes.NewReader(file.Bytes()),
-		ContentType: &contentTypes,
+		Bucket: aws.String("parsian"),
+		Key:    aws.String(fileFullname),
+		Body:   file,
 	})
 
 	if err != nil {

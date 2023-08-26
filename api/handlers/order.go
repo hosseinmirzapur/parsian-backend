@@ -169,7 +169,7 @@ func (h *orderHandler) GetBySpecialId(c *fiber.Ctx) error {
 }
 
 func (h *orderHandler) GetExcelFile(c *fiber.Ctx) error {
-	link, err := services.GetExcelFile()
+	byteArray, err := services.GetExcelFile()
 
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
@@ -178,8 +178,6 @@ func (h *orderHandler) GetExcelFile(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
-		"success": true,
-		"link":    link,
-	})
+	return c.Status(fiber.StatusOK).Send(byteArray)
+
 }
